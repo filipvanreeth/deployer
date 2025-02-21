@@ -1,0 +1,25 @@
+{
+    "name": "filipvanreeth/deployer",
+    "description": "Deploy Bedrock via Deployer",
+    "type": "library",
+    "homepage": "https://github.com/filipvanreeth/deployer",
+    "authors": [
+        {
+            "name": "Filip Van Reeth",
+            "email": "filip@filipvanreeth.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "vlucas/phpdotenv": "^5.4",
+        "deployer/deployer": "^7.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "scripts": {
+        "test": [
+            "phpcs --standard=PSR2 --exclude=PSR1.Files.SideEffects recipes"
+        ]
+    }
+}
