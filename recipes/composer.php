@@ -3,7 +3,7 @@ namespace Deployer;
 
 desc('Install composer dependencies for production');
 task('composer:vendors', function () {
-    run('composer install --no-dev --optimize-autoloader');
+    run('cd {{release_path}} && composer install --no-dev --optimize-autoloader');
 });
 
 desc('Add repository authentication to remote server');
