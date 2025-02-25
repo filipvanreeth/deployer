@@ -1,8 +1,8 @@
 <?php
 namespace Deployer;
 
-desc('Password protect stage');
-task('auth:password_protect_stage', function () {
+desc('Enables HTTP authentication');
+task('auth:enable_http_authentication', function () {
     $deployPath = get('deploy_path');
     $webRoot = get('web_root');
 
@@ -14,6 +14,8 @@ task('auth:password_protect_stage', function () {
 
     if (!test("grep -q {$username}: {$deployPath}/shared/{$webRoot}/.htpasswd")) {
         ob_start();
+        echo "# Username: {$username}\n";
+        echo "# Password: {$password}\n";
         echo "{$username}:{$encryptedPassword}";
         $content = ob_get_clean();
     
@@ -40,5 +42,30 @@ task('auth:password_protect_stage', function () {
         run("echo \"{$content}\" >> {$deployPath}/shared/{$webRoot}/.htaccess");
     } else {
         writeln('<comment>Basic auth already in effect</comment>');
+    }
+});
+
+desc('Disables HTTP authentication');
+task('auth:disable_http_authentication', function () {
+    $deployPath = get('deploy_path');
+    $webRoot = get('web_root');
+
+    // Remove .htpasswd file
+    if (test("[ -f {$deployPath}/shared/{$webRoot}/.htpasswd ]")) {
+        run("rm {$deployPath}/shared/{$webRoot}/.htpasswd");
+        writeln('<info>.htpasswd file removed</info>');
+    } else {
+        writeln('<comment>.htpasswd file does not exist</comment>');
+    }
+
+    // Remove AuthUserFile directive from .htaccess
+    if (test("[ -f {$deployPath}/shared/{$webRoot}/.htaccess ]")) {
+        run("sed -i '/AuthType/d' {$deployPath}/shared/{$webRoot}/.htaccess");
+        run("sed -i '/AuthName/d' {$deployPath}/shared/{$webRoot}/.htaccess");
+        run("sed -i '/AuthUserFile/d' {$deployPath}/shared/{$webRoot}/.htaccess");
+        run("sed -i '/Require valid-user/d' {$deployPath}/shared/{$webRoot}/.htaccess");
+        writeln('<info>Basic auth directives removed from .htaccess</info>');
+    } else {
+        writeln('<comment>.htaccess file does not exist</comment>');
     }
 });
