@@ -41,9 +41,6 @@ add('shared_dirs', [
 /** Writable directories */
 add('writable_dirs', []);
 
-// Generate security.txt
-after('deploy:symlink', 'deploy:security_txt');
-
 /** Copy auth.json */
 before('deploy:vendors', 'composer:upload_auth_json');
 
