@@ -45,7 +45,7 @@ add('writable_dirs', []);
 after('deploy:symlink', 'deploy:security_txt');
 
 /** Copy auth.json */
-before('deploy:vendors', 'bedrock:upload_auth_json');
+before('deploy:vendors', 'composer:upload_auth_json');
 
 /** Remove auth.json */
-after('deploy:vendors', 'bedrock:remove_auth_json');
+after('deploy:vendors', 'composer:remove_auth_json');

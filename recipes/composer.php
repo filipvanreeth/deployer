@@ -1,9 +1,18 @@
 <?php
 namespace Deployer;
 
-desc('Install composer dependencies for production');
-task('composer:vendors', function () {
-    run('cd {{release_path}} && composer install --no-dev --optimize-autoloader');
+desc('Upload auth.json to remote');
+task('composer:upload_auth_json', function () {
+    $authJsonPath = 'auth.json';
+
+    if (file_exists($authJsonPath)) {
+        upload($authJsonPath, '{{release_path}}/auth.json');
+    }
+});
+
+desc('Remove auth.json from remote');
+task('composer:remove_auth_json', function () {
+    run("rm {{release_path}}/auth.json");
 });
 
 desc('Add repository authentication to remote server');

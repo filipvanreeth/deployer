@@ -68,7 +68,7 @@ task('bedrock:create_env', function () {
         echo PHP_EOL;
 
         foreach ($salt_keys as $key) {
-            echo $key . "='" . generate_salt() . "'" . PHP_EOL;
+            echo $key . "='" . generateSalt() . "'" . PHP_EOL;
         }
     
         $content = ob_get_clean();
@@ -79,27 +79,13 @@ task('bedrock:create_env', function () {
     }
 });
 
-desc('Upload auth.json to remote');
-task('bedrock:upload_auth_json', function () {
-    $authJsonPath = 'auth.json';
-
-    if (file_exists($authJsonPath)) {
-        upload($authJsonPath, '{{release_path}}/auth.json');
-    }
-});
-
-desc('Remove auth.json from remote');
-task('bedrock:remove_auth_json', function () {
-    run("rm {{release_path}}/auth.json");
-});
-
-function generate_salt()
+function generateSalt()
 {
-    $chars              = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()-_[]{}<>~+=,.;:/?|';
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()-_[]{}<>~+=,.;:/?|';
     $char_option_length = strlen($chars) - 1;
 
     $password = '';
-    for ($i = 0; $i < 64; $i ++) {
+    for ($i = 0; $i < 64; $i++) {
         $password .= substr($chars, random_int(0, $char_option_length), 1);
     }
 
