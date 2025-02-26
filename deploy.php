@@ -24,18 +24,18 @@ set('db_prefix', 'wp_');
 /** Shared files */
 add('shared_files', [
     '.env',
-    '{{ web_root }}/.htaccess',
-    '{{ web_root }}/.htpasswd',
-    '{{ web_root }}/.user.ini',
-    '{{ web_root }}/app/object-cache.php',
-    '{{ web_root }}/app/wp-cache-config.php',
+    '{{web_root}}/.htaccess',
+    '{{web_root}}/.htpasswd',
+    '{{web_root}}/.user.ini',
+    '{{web_root}}/app/object-cache.php',
+    '{{web_root}}/app/wp-cache-config.php',
 ]);
 
 /** Shared directories */
 add('shared_dirs', [
-    '{{ web_root }}/app/blogs.dir',
-    '{{ web_root }}/app/fonts',
-    '{{ web_root }}/app/uploads',
+    '{{web_root}}/app/blogs.dir',
+    '{{web_root}}/app/fonts',
+    '{{web_root}}/app/uploads',
 ]);
 
 /** Writable directories */
