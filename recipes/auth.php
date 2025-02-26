@@ -8,8 +8,14 @@ task('auth:enable_http_authentication', function () {
 
     createFileIfNotExists("{$deployPath}/shared/{$webRoot}/.htpasswd");
 
-    $username = ask('username', get('basic_auth_user'));
-    $password = ask('password', get('basic_auth_pass'));
+    $username = get('basic_authentication_username');
+    $password = get('basic_authentication_password');
+    
+    if(empty($username) || empty($password)) {
+        $username = ask('username');
+        $password = ask('password');
+    }
+    
     $encryptedPassword = crypt($password, base64_encode($password));
 
     if (!test("grep -q {$username}: {$deployPath}/shared/{$webRoot}/.htpasswd")) {
