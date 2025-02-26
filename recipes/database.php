@@ -164,6 +164,12 @@ task('db:push', function () {
     }
 });
 
+desc('Updates the WordPress core database');
+task('db:update_core', function () {
+    $result = run("wp core update-db --path={{current_path}}/{{web_root}}/wp --color");
+    writeln($result);
+});
+
 function replaceCollation($filePath)
 {
     return "sed -i 's/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g' {$filePath}";
