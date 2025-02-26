@@ -13,13 +13,13 @@ foreach (glob(__DIR__ . '/recipes/*.php') as $filename) {
 /** Config */
 set('keep_releases', 3);
 // set('slack_success_text', 'Deploy to *{{target}}* successful. Visit {{url}}/wp/wp-admin.');
-set('basic_auth_user', '');
-set('basic_auth_pass', '');
+set('basic_authentication_username', '');
+set('basic_authentication_password', '');
 
 set('web_root', 'www');
 set('db_prefix', 'wp_');
 
-// set('cachetool_args', '--web=SymfonyHttpClient --web-path=./{{web_root}} --web-url={{url}} --web-basic-auth="{{basic_auth_user}}:{{basic_auth_pass}}"');
+// set('cachetool_args', '--web=SymfonyHttpClient --web-path=./{{web_root}} --web-url={{url}} --web-basic-auth="{{basic_authentication_user}}:{{basic_authentication_password}}"');
 
 /** Shared files */
 add('shared_files', [
