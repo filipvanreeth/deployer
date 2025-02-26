@@ -1,6 +1,12 @@
 <?php
 namespace Deployer;
 
+desc('Check for outdated composer packages (locally)');
+task('composer:check_outdated', function () {
+    $outdated = runLocally('composer outdated', ['tty' => true]);
+    writeln($outdated);
+});
+
 desc('Upload auth.json to remote');
 task('composer:upload_auth_json', function () {
     $authJsonPath = 'auth.json';
