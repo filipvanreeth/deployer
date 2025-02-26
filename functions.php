@@ -69,3 +69,10 @@ function createSlug(string $string): string
 
     return $string;
 }
+
+function getWpCommand()
+{
+    $isLandoRunning = run('lando info > /dev/null 2>&1 && echo "yes" || echo "no"');
+    var_dump($isLandoRunning);
+    return ($isLandoRunning === 'yes') ? 'lando wp' : 'wp';
+}
