@@ -4,7 +4,7 @@ namespace Deployer;
 use DateTime;
 
 /* Add revision.txt */
-desc('Write timestamp and git commit to file');
+desc('Writes a timestamp and git commit to file');
 task('automate:write_revision_to_file', function () {
     $date = date('YmdHis');
     $webRoot = get('web_root');
