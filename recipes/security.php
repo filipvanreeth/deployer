@@ -37,7 +37,7 @@ function generateSecurityTxtContent()
     
     $expires = getenv("{$envPrefix}EXPIRES");
     $expirationDate = $expires 
-        ? new DateTime($expires)->format('Y-m-d\TH:i:s\Z')
+        ? (new DateTime($expires))->format('Y-m-d\TH:i:s\Z')
         : (new DateTime())->modify('+1 year')->format('Y-m-d\TH:i:s\Z');
 
     $variables = [
