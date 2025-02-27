@@ -164,7 +164,7 @@ task('db:push', function () {
     }
 });
 
-desc('Update core database');
+desc('Updates core database');
 task('db:update_core', function () {
     $checkDb = run('wp db check || echo "DB_ERROR"');
 
