@@ -2,7 +2,7 @@
 
 namespace Deployer;
 
-desc('Pull Database');
+desc('Pull database');
 task('db:pull', function () {
     $localUrl = ask('Local URL', $_SERVER['WP_HOME']);
     $date = date('Y-m-d_H-i-s');
@@ -60,7 +60,7 @@ task('db:pull', function () {
     }
 });
 
-desc('Download Database');
+desc('Download database');
 task('db:download', function () {
     $date = date('Y-m-d_H-i-s');
     $uniqueId = uniqid();
@@ -101,7 +101,7 @@ task('db:download', function () {
     runLocally("open {$downloadDir}");
 });
 
-desc('Push Database');
+desc('Push database');
 task('db:push', function () {
     if (!askConfirmation('<bg=red;fg=white;options=bold>Warning</><bg=red;fg=white>, this will overwrite the database on the remote server. Are you sure you want to continue?</>', false)) {
         writeln('Aborted');
@@ -164,7 +164,7 @@ task('db:push', function () {
     }
 });
 
-desc('Updates the WordPress core database');
+desc('Update core database');
 task('db:update_core', function () {
     $checkDb = run('wp db check || echo "DB_ERROR"');
 
