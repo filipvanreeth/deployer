@@ -17,23 +17,6 @@ task('wordpress:set_admin_email', function () {
     runWpQuery('wordpress/admin-email');
 });
 
-desc('Updates WordPress core, plugins, and themes');
-task('wordpress:update', function () {
-    $wp = getWpCommand();
-
-    // Update WordPress core
-    $coreOutput = runLocally("{$wp} core update --color", ['tty' => true]);
-    writeln($coreOutput);
-
-    // Update plugins
-    $pluginsOutput = runLocally("{$wp} plugin update --all --color", ['tty' => true]);
-    writeln($pluginsOutput);
-
-    // Update themes
-    $themesOutput = runLocally("{$wp} theme update --all --color", ['tty' => true]);
-    writeln($themesOutput);
-});
-
 desc('Checks for plugin updates');
 task('wordpress:check_plugin_updates', function () {
     $wp = getWpCommand();

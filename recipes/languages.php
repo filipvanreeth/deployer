@@ -42,6 +42,23 @@ task('languages:install', function () {
     writeln('<info>Installation of plugins and themes for all languages completed.</info>');
 });
 
+desc('Updates languages (locally)');
+task('languages:update', function () {
+    $wp = getWpCommand();
+
+    // Update WordPress core
+    $coreOutput = runLocally("{$wp} core update --color", ['tty' => true]);
+    writeln($coreOutput);
+
+    // Update plugins
+    $pluginsOutput = runLocally("{$wp} plugin update --all --color", ['tty' => true]);
+    writeln($pluginsOutput);
+
+    // Update themes
+    $themesOutput = runLocally("{$wp} theme update --all --color", ['tty' => true]);
+    writeln($themesOutput);
+});
+
 desc('Uninstall language (locally)');
 task('language:uninstall', function () {
     $language = ask('Language to uninstall');
