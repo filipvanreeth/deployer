@@ -18,7 +18,6 @@ task('combell:create_symlink', function () {
     // Create symlink
     $webRootPath = "{$deployPath}/current/{$webRoot}";
     writeln("Symlinking {$webRootPath} to {$symlinkDirectory}");
-    $runCommand = "ln -s {$webRootPath} {$symlinkDirectory}";
     run("ln -s {$webRootPath} {$symlinkDirectory}");
 
     // reload PHP
