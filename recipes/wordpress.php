@@ -63,6 +63,32 @@ task('wordpress:update', function () {
     writeln($themesOutput);
 });
 
+desc('Uninstalls language including plugins and themes translations (locally)');
+task('wordpress:uninstall_language', function () {
+    $language = ask('Language to uninstall');
+    
+    $wp = getWpCommand();
+    
+    $isActiveLanguage = runLocally("{$wp} option get WPLANG") === $language ? true : false;
+    
+    if($isActiveLanguage) {
+        writeln("<error>Language {$language} is active. Please change the active language first.</error>");
+        return;
+    }
+
+    $isLanguageInstalled = runLocally("{$wp} language core list --field=language --status=installed");
+    $isLanguageInstalled = strpos($isLanguageInstalled, $language) !== false;
+    
+    if($isLanguageInstalled) {
+        runLocally("{$wp} language core uninstall $language");
+    }
+    
+    runLocally("{$wp} language plugin uninstall {$language} --all");
+    runLocally("{$wp} language theme uninstall {$language} --all");
+    
+    writeln("<info>Language {$language} uninstalled.</info>");
+});
+
 desc('Checks for plugin updates');
 task('wordpress:check_plugin_updates', function () {
     $wp = 'wp';
