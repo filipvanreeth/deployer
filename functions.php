@@ -72,6 +72,5 @@ function createSlug(string $string): string
 
 function getWpCommand()
 {
-    $isLandoRunning = run('lando info > /dev/null 2>&1 && echo "yes" || echo "no"');
-    return ($isLandoRunning === 'yes') ? 'lando wp' : 'wp';
+    return currentHost()->has('lando') ? 'lando wp' : 'wp';
 }
