@@ -15,11 +15,13 @@
         "deployer/deployer": "^7.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.7"
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpstan/phpstan": "^1.9"
     },
     "scripts": {
         "test": [
             "phpcs --standard=PSR2 --exclude=PSR1.Files.SideEffects recipes"
-        ]
+        ],
+        "phpstan": "phpstan analyse"
     }
 }

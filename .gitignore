@@ -1,1 +1,4 @@
 vendor
+
+#PHPStan
+phpstan.neon

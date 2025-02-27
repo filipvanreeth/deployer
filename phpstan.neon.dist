@@ -1,0 +1,7 @@
+parameters:
+    level: 5
+    paths:
+        - recipes
+        - snippets
+        - functions.php
+        - deploy.php
