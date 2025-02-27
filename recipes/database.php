@@ -103,7 +103,7 @@ task('db:download', function () {
 
 desc('Push Database');
 task('db:push', function () {
-    if (! askConfirmation('<bg=red;fg=white;options=bold>Warning</><bg=red;fg=white>, this will overwrite the database on the remote server. Are you sure you want to continue?</>', false)) {
+    if (!askConfirmation('<bg=red;fg=white;options=bold>Warning</><bg=red;fg=white>, this will overwrite the database on the remote server. Are you sure you want to continue?</>', false)) {
         writeln('Aborted');
 
         return;
@@ -166,6 +166,12 @@ task('db:push', function () {
 
 desc('Updates the WordPress core database');
 task('db:update_core', function () {
+    $checkDb = run('wp db check || echo "DB_ERROR"');
+
+    if (strpos($checkDb, 'DB_ERROR') !== false) {
+        return;
+    }
+
     $result = run("wp core update-db --path={{current_path}}/{{web_root}}/wp --color");
     writeln($result);
 });
