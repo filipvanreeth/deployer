@@ -48,5 +48,5 @@ before('deploy:vendors', 'composer:upload_auth_json');
 after('deploy:vendors', 'composer:remove_auth_json');
 
 after('deploy:symlink', 'db:update_core');
-after('deploy:symlink', 'cleanup:lando_environment');
+after('deploy:symlink', 'lando:remove');
 after('deploy:symlink', 'cleanup:wordpress_files');
