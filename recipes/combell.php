@@ -3,32 +3,23 @@
 namespace Deployer;
 
 /** Symlink hosts */
-desc('Symlink app to host');
-task('combell:host_symlink', function () {
+desc('Creates a symlink to the current release');
+task('combell:create_symlink', function () {
     $deployPath = get('deploy_path');
-    $branch = get('branch');
     $webRoot = get('web_root');
-    $directory = currentHost()->getAlias() === 'production' ? 'www' : 'subsites/'.parse_url(get('url'), PHP_URL_HOST);
-
-    $assumedPath = str_replace('app/'.$branch, '', $deployPath).$directory;
-
-    // check if symlink exists
-    if (test("[ -L {$assumedPath} ]")) {
+    $symlinkDirectory = get('symlink_directory');
+    
+    // Check if symlink exists
+    if (test("[ -L {$symlinkDirectory} ]")) {
         writeln('Symlink already exists. Aborting.');
-
         return;
     }
 
-    // check if assumed path is a directory
-    if (test("[ -d {$assumedPath} ]")) {
-        $backupPath = $assumedPath.'.bak';
-        writeln("Assumed path {$assumedPath} is a directory, moving to {$backupPath}");
-        run("mv {$assumedPath} {$assumedPath}.bak");
-    }
-
-    // symlink app to host
-    writeln("Symlinking {$deployPath}/current/{$webRoot} to {$assumedPath}");
-    run("ln -s {$deployPath}/current/{$webRoot} {$assumedPath}");
+    // Create symlink
+    $webRootPath = "{$deployPath}/current/{$webRoot}";
+    writeln("Symlinking {$webRootPath} to {$symlinkDirectory}");
+    $runCommand = "ln -s {$webRootPath} {$symlinkDirectory}";
+    run("ln -s {$webRootPath} {$symlinkDirectory}");
 
     // reload PHP
     reloadPhp();
