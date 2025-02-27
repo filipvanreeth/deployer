@@ -3,8 +3,8 @@ namespace Deployer;
 
 set('lando', false);
 
-desc('Cleanup Lando environment');
-task('cleanup:lando_environment', function () {
+desc('Removes Lando environment');
+task('lando:remove', function () {
     if (get('lando') === true) {
         writeln('<comment>Cleanup files in a Lando environment is not allowed!</comment>');
         return;
