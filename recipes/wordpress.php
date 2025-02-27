@@ -20,25 +20,37 @@ task('wordpress:set_admin_email', function () {
 desc('Installs languages for plugins and themes (locally)');
 task('wordpress:install_languages', function () {
     $wp = getWpCommand();
+    
+    $activeLanguages = runLocally("{$wp} language core list --field=language --status=active");
+    
+    if (!empty(trim($activeLanguages))) {
+        $activeLanguages = explode("\n", trim($activeLanguages));
+    } else {
+        $activeLanguages = [];
+    }
 
-    // Get the list of installed languages
-    $languages = runLocally("{$wp} core language list --status=installed --field=language");
+    $installedLanguages = runLocally("{$wp} core language list --status=installed --field=language");
 
-    if (empty(trim($languages))) {
+    if (empty(trim($installedLanguages))) {
         writeln('<info>No languages installed.</info>');
         return;
     }
 
-    $languages = explode("\n", trim($languages));
+    $installedLanguages = explode("\n", trim($installedLanguages));
+    
+    // Merge the active and installed languages
+    $languages = array_merge($activeLanguages, $installedLanguages);
+    $languages = array_unique($languages);
+    
+    // Remove default en_US language
+    unset($languages[array_search('en_US', $languages)]);
 
     foreach ($languages as $language) {
         writeln("<info>Installing plugins and themes for language: $language</info>");
 
-        // Install plugins for the specified language
         $pluginsOutput = runLocally("{$wp} language plugin install --all --color $language", ['tty' => true]);
         writeln($pluginsOutput);
 
-        // Install themes for the specified language
         $themesOutput = runLocally("{$wp} language theme install --all --color $language", ['tty' => true]);
         writeln($themesOutput);
     }
@@ -91,14 +103,9 @@ task('wordpress:uninstall_language', function () {
 
 desc('Checks for plugin updates');
 task('wordpress:check_plugin_updates', function () {
-    $wp = 'wp';
-    
-    if(currentHost()->has('lando')) {
-        $wp = 'lando wp';
-    }
+    $wp = getWpCommand();
     
     if(currentHost()->getAlias() === 'localhost') {
-        var_dump('running locally');
         $plugins = runLocally("{$wp} plugin list --update=available --format=json --path={{web_root}}/wp");
     } else {
         $wpPath = "{{current_path}}/{{web_root}}/wp";
